@@ -1,0 +1,38 @@
+.login-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-symbol {
+    margin-bottom: 40px;
+}
+
+.login-logo {
+    height: 100px;
+    width: 100px;
+    stroke: white;
+}
+
+.start-button {
+    padding: 15px 60px;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 50px;
+    background-color: white;
+    color: #764ba2;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start-button:hover {
+    background-color: #667eea;
+    color: white;
+    transform: scale(1.1);
+}
