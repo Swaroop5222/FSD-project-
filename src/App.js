@@ -37,6 +37,7 @@ import "./css/App.css";
 import Nav from "./components/Nav";
 import Login from "./components/Login";
 import HomePage from "./pages/HomePage";
+import AlbumPage from "./pages/AlbumPage";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -53,6 +54,10 @@ function App() {
           <Route
             path="/login"
             element={!user ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/albums/:albumId/photos"
+            element={user ? <AlbumPage /> : <Navigate to="/login" />}
           />
         </Routes>
       </Router>

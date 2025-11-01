@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/HomePage.css";
 import Photo from "../components/Photo";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
   IconButton,
@@ -20,21 +20,26 @@ function AlbumPage() {
   const currentAlbum = useSelector((state) => state.currentAlbum);
   const [photos, setPhotos] = useState([]);
   const [open, setOpen] = useState(false);
+  const { albumId: routeAlbumId } = useParams();
 
+  // If redux currentAlbum indicates ROOT and there's no route param, redirect home
   useEffect(() => {
-    if (currentAlbum.albumId === "ROOT") navigate(`/`, { replace: true });
-  }, [navigate, currentAlbum.albumId]);
+    if (!routeAlbumId && currentAlbum?.albumId === "ROOT") navigate(`/`, { replace: true });
+  }, [navigate, currentAlbum, routeAlbumId]);
 
   useEffect(() => {
     let cancel = false;
 
     async function fetchPhotos() {
       try {
+        // Prefer album id from route param; fallback to redux currentAlbum
+        const activeAlbumId = routeAlbumId || currentAlbum?.albumId || currentAlbum?._id;
+        if (!activeAlbumId) return;
         const res = await fetch(
-          `http://localhost:5000/getalbums/${currentAlbum.albumId}/photos`
+          `http://localhost:5000/albums/${activeAlbumId}/photos`
         );
         const data = await res.json();
-        if (!cancel) setPhotos(data);
+        if (!cancel) setPhotos(data || []);
       } catch (e) {
         console.error(e);
       }
@@ -45,7 +50,7 @@ function AlbumPage() {
     return () => {
       cancel = true;
     };
-  }, [currentAlbum.albumId]);
+  }, [routeAlbumId, currentAlbum]);
 
   const openDeleteModal = () => setOpen(true);
   const closeDeleteModal = () => setOpen(false);

@@ -227,5 +227,22 @@ app.delete('/albums/:albumId', async (req, res) => {
     }
 });
 
+app.get('/albums/:albumId/images/:filename', (req, res) => {
+    console.log("Fetching image");
+    const filename = req.params.filename;
+    const options = {
+        root: path.join(__dirname, 'images'),
+    };
+    res.sendFile(options.root + '/' + filename, (err) => {
+        if (err) {
+            res.status(404).send('Image not found');
+        }
+    });
+});
+
+app.get('\\*', (req, res) => {
+    res.status(404).send('Endpoint not found');
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

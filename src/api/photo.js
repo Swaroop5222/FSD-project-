@@ -35,7 +35,7 @@ export const getRootPhotos = async (uid, setPhotos) => {
 // Get photos in a specific album
 export const getAlbumPhotos = async (currentAlbumId, setPhotos) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/getalbums/${currentAlbumId}/photos`);
+    const response = await axios.get(`${API_BASE_URL}/albums/${currentAlbumId}/photos`);
     setPhotos(response.data);
   } catch (error) {
     console.error('Error fetching album photos', error);
